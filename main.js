@@ -1,43 +1,3 @@
-// const express = require('express');
-// const app = express();
-// const mongoose = require('mongoose');
-// app.use(express.json());
-
-// //Making connection with mongodb
-// mongoose.connect('mongodb://localhost:27017/inveSystem', {
-//     userNewUrlParser: true,
-//     useUnifiedTopology: true
-// },(err)=>{
-//     if(!err){
-//         console.log('Connected to DB');
-//     }else{
-//         console.log('Error Connecting DB');
-//     }
-// })
-
-// //schema
-// const userSchema = {
-//     name: String,
-//     email: String,
-//     id: Number
-// }
-// const monmodle = mongoose.model('customer', userSchema);
-
-// //post
-// app.post("/addCustomer",async(req,res)=>{
-//     console.log(req.body);
-//     const userdata = new monmodle({
-//         name: req.body.name,
-//         email: req.body.email,
-//         id: req.body.id
-//     })
-//     const result = await user.save();
-//     res.send(result);
-// })
-// app.listen(3000, () => {
-//     console.log('Server started on port 3000');
-// });
-
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -69,7 +29,7 @@ const userSchema = new mongoose.Schema({
 // Model name should start with uppercase
 const Customer = mongoose.model('customer', userSchema);
 
-// POST request
+//-------------------------------- POST request --------------------------
 app.post("/addCustomer", async (req, res) => {
     try {
         console.log(req.body);
@@ -79,9 +39,9 @@ app.post("/addCustomer", async (req, res) => {
             id: req.body.id
         });
 
-        const result = await userdata.save(); 
+        const result = await userdata.save();
         res.status(201).json(result);
-        
+
     } catch (error) {
         res.status(500).json({ error: 'Error saving customer', details: error.message });
     }
@@ -91,3 +51,19 @@ app.post("/addCustomer", async (req, res) => {
 app.listen(3000, () => {
     console.log('Server started on port 3000');
 });
+
+//--------------------- PUT request -------------------------------------
+app.put("/updateCustomer/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedData = userdata;
+        const result = await Customer.updateOne({ id: id }, { $set: updatedData });
+        res.status(200).json({result:'Customer updated successfully'});
+    } catch (error) {
+        res.status(500).json({ error: 'Error updating customer', details: error.message });
+    }
+});
+
+
+
+

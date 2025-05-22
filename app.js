@@ -1,18 +1,21 @@
-// app.js
 const express = require('express');
 const connectDB = require('./config/db');
 const customerRoutes = require('./routes/customerRoutes');
 const stockRoutes = require('./routes/stockRouters');
+const cors = require('cors');
 
-const app = express();
-app.use(express.json());
+const app = express(); 
 
 // Connect to MongoDB
 connectDB();
 
+// Middlewares
+app.use(cors()); 
+app.use(express.json());
+
 // Register routes
+app.use('/api', stockRoutes); 
 app.use('/', customerRoutes);
-app.use('/', stockRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5001;

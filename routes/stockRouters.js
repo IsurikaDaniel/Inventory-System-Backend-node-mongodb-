@@ -25,10 +25,10 @@ router.get('/getStock/:id', async (req, res) => {
 });
 
 
-// GET - Get all Stock items
+// GET - Get all Stock items //{http://localhost:5001/api/allStock}
 router.get("/allStock", async (req, res) => {
     try {
-        const stocks = await Stock.find();
+        const stocks = await Stock.find(); // Fetches all documents from Stock collection
         res.status(200).json(stocks);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching stocks', details: error.message });

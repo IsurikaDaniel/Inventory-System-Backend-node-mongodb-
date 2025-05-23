@@ -2,6 +2,7 @@ const express = require('express');
 const connectDB = require('./config/db');
 const customerRoutes = require('./routes/customerRoutes');
 const stockRoutes = require('./routes/stockRouters');
+const ordersRoutes = require('./routes/ordersRoutes'); // corrected here
 const cors = require('cors');
 
 const app = express(); 
@@ -14,7 +15,8 @@ app.use(cors());
 app.use(express.json());
 
 // Register routes
-app.use('/api', stockRoutes); 
+app.use('/api', stockRoutes);
+app.use('/api/orders', ordersRoutes); 
 app.use('/', customerRoutes);
 
 // Start the server

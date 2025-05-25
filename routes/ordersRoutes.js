@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Orders = require('../models/orders');
- 
+
 //POST
-router.post('/addOrder', async (req , res ) => {
+router.post('/addOrder', async (req, res) => {
     try {
         const orders = new Orders(req.body);
         const saved = await orders.save();
@@ -36,6 +36,14 @@ router.get('/getOrder/:product', async (req, res) => {
     }
 });
 
-
+// GET - Get all orders
+router.get("/allOrders", async (req, res) => {
+    try {
+        const orders = await Orders.find(); // Fetches all documents from Stock collection
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching orders', details: error.message });
+    }
+});
 
 module.exports = router;
